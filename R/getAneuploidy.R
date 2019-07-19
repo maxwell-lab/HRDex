@@ -201,7 +201,7 @@ getAneuploidy <- function ( seq.dat, ploidy.dat, chr, ref = "grch37" )
 
 # ------------------------------- getAneuploidyGenome --------------------------- #
 # function to get aneuploidy scores for the whole genome
-getAneuploidyGenome <- function( seq.dat, ploidy.dat )
+getAneuploidyGenome <- function( seq.dat, ploidy.dat, include.X = FALSE )
 # indput: seq.dat (data.frame), the raw sequencing data
 #         ploidy.dat (data.frame), the ploidy data
 # output: list of
@@ -212,7 +212,14 @@ getAneuploidyGenome <- function( seq.dat, ploidy.dat )
   out1 <- c()
   out2 <- c()
   
-  for( i in c(1:22, "X"))
+  chrs <- seq(1:22)
+  
+  if( include.X == TRUE )
+  {
+    chrs <- c(chrs, "X")
+  }
+  
+  for( i in chrs)
   {
     
     x = getAneuploidy( seq.dat, ploidy.dat, i)

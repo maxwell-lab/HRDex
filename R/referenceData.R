@@ -31,6 +31,9 @@ grch37.ref.dat = data.frame( chromosome = paste("chr", c(seq(1:22), "X", "Y"), s
                       
 )
 
+# for now, Y chromosome wont be considered, drop it
+grch37.ref.dat <- grch37.ref.dat[1:23,]
+
 # grch38.p13
 # release date: 3/1/19
 grch38.ref.dat <- data.frame( chromosome = paste("chr", c(seq(1:22), "X", "Y"), sep =""),
@@ -55,3 +58,4 @@ grch38.ref.dat <- data.frame( chromosome = paste("chr", c(seq(1:22), "X", "Y"), 
                                            135086622, 133275309, 114364328, 107043718, 101991189,
                                            90338345, 83257441, 80373285, 58617616, 64444167,
                                            46709983, 50818468, 156040895, 57227415))
+grch38.ref.dat <- grch38.ref.dat[1:23,]
