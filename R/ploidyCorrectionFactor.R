@@ -1,0 +1,32 @@
+
+
+#' Ploidy correction factor, a value that is used to reduce total number of HRD events to unique events.
+#' @param ploidy numeric estimate of ploidy
+#' @export
+#' @keywords HRDX
+#' ploidyCorrectionFactor()
+#' @details At baseline, tumors are diploid (ploidy = 2). For tetraploid tumors, the number of genomic events is doubled- therefor, need to correct by dividing the number of events 
+#' by 2. for an octoploid tumor, divide by 1/4, and so on. Sequencing data returns ploidy estimated as average across the genome, e.g., not integer valued. The correction factor is 
+#' derived as:
+#' 
+#' for tumor of degree \eqn{\frac{2}{n}}, the correction factor is \deqn{\frac{1}{2^{(n - 1)}}}
+#' \deqn{ploidy = 2^{n}}
+#' \deqn{log(ploidy) = n log(2)}
+#' \deqn{n = \frac{log(ploidy)}{log(2)}}
+#' @return k, \eqn{\frac{log(ploidy)}{log(2))^{-1}}}
+#' @examples 
+#' ploidyCorrectionFactor( 2.8 )
+#' 
+#' ## ploidyCorrectionFactor( ploidy ) * ploidy = 2
+
+
+
+ploidyCorrectionFactor <- function( ploidy )
+# input: ploidy (numeric), the estimated ploidy
+# output: k (numeric), the ploidy correction factor. all HRD measures are multiplied by k.
+{
+  n = log(ploidy) / log(2)
+  k = 1 / (2^(n - 1) )
+  
+  return(k)
+}  

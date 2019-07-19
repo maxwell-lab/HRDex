@@ -1,0 +1,153 @@
+---
+title: "HRDX Vignette"
+author: "John Pluta"
+date: "7/2/2019"
+output: html_document
+
+vignette: >
+  %\VignetteIndexEntry{Test}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+devtools::load_all(".")
+library(HRDX)
+load("data/sub01.ploidy.rda")
+load("data/sub01.segments.rda")
+```
+
+
+
+## Sample Data
+
+HRDX comes with a sample data set, the result of running Sequenza VX.X on TCGA subject Y. "sub01.segments" contains information on the segments of the genome, and copynumber status. "sub01.ploidy" contains ploidy estimates. This data can be used for HRD or aneuploid calculation.
+
+```{r}
+head(sub01.segments)
+print(sub01.ploidy)
+```
+
+***
+
+## HRD Scoring
+
+**Preprocessing**
+
+The package needs to define the centromere and telomere positions for each chromosome; the overall chromosome size; the length of each segment; the length of the gaps between segments; the p, q, and cross arms; and allelic imbalance. This is all achieved using the function "preprocessSeq". All positions are stored in the reference data within the package; both grch37 and grch38 are supported. The other stuff is calculated from the data.
+
+```{r}
+seq.dat <- sub01.segments[ sub01.segments$chromosome == "chr1",]
+preprocessSeq( seq.dat )
+```
+
+**Quality Control**
+
+Part of preprocessing is identifying errors in defining segments. For example, on chromosome 14:
+
+```{r}
+cols <- c(1,2,3,10,11,12)
+seq.dat <- sub01.segments[ sub01.segments$chromosome == "chr14", ]
+seq.dat[,cols]
+```
+
+ notice that the last two segments have a very small gap between them, with identical copynumber status. This suggests that this is really one full segment being incorrectly identified as two. The function combineSegs is called within preprocessSeq to correct these:
+ 
+```{r}
+seq.dat <- preprocessSeq( seq.dat )
+seq.dat[,cols]
+```
+
+After the preprocessing function runs, the last two segments are combined into one.
+
+**Normalization**
+
+It is recommended that you use normalized values for HRD measures. Each genomic doubling creates a copy of each HRD event. At baseline, tumors are diploid (ploidy = 2). For tetraploid tumors (ploidy = 4), the number of genomic events is doubled. To adjust for ploidy, the raw score from a diploid tumor would be divided 1; for a tetraploid tumor, divided by 2; and so on. This can be expressed mathematically as:
+
+$$ploidy = 2^k$$
+Ploidy is an estimated value and is averaged across the genome, meaning it is unlikely to be an integer value. solving for *k* yields:
+
+$$k = \left \{ \frac{log(ploidy)} {log(2)} \right \} ^{-1}$$
+where *k* is the ploidy correction factor, that is multiplied by the raw score to obtain the normalized score. 
+
+*NTAI*
+
+is normalized by removing CN segments (why)
+
+**HRD Measures**
+
+Once the data has been preprocessed, you can calculate HRD measures LST, LOH, TAI, and NTAI. Each metric is retrieved with a corresponding function.
+
+*LST*
+
+Raw LST is the number of large state transition events. LST is normalized by ploidy.
+
+```{r}
+seq.dat <- preprocessHRD( sub01.segments )
+getLST.raw( seq.dat )
+getLST.norm( seq.dat, sub01.ploidy )
+```
+
+***
+
+*LOH*
+
+Raw LOH is the number of loss of heterozygosity events. LOH is normalized by ploidy.
+
+```{r}
+getLOH.raw( seq.dat )
+getLOH.norm( seq.dat, sub01.ploidy )
+```
+
+***
+
+*NTAI*
+
+Raw NTAI is the number of nontelomeric allelic imbalance events. NTAI is normalized by removing main copynumber segments.
+
+```{r}
+CN.dat <- getCNt( seq.dat )
+getNTAI.raw( seq.dat )
+getNTAI.norm( seq.dat, CN.dat)
+```
+
+***
+
+*HRD Score*
+
+An HRD Score is some linear combination of raw or normalized values LST, LOH, NTAI (or TAI). You can use the total or average of the three metrics. getHRD.Score is a convenient function for calculating the 'standard' HRD score (what we use in Maxwell et al.), which is the sum of LST, LOH, and NTAI, all normalized. It is intended to return the HRD score without having to specify all the individual arguments. Optionally, you can rescale the data to fit a range of 0 - 100. For a single subject, an HRD score can be easily be calculated from raw data in just a few steps:
+
+```{r}
+seq.dat <- preprocessHRD( sub01.segments )
+CN.dat  <- getCNt( seq.dat )
+
+HRD <- getHRD.Score( seq.dat, CN.dat, sub01.ploidy )
+print(HRD)
+```
+
+
+
+## Aneuploidy
+
+Aneuploidy processing uses different criteria than HRD. Therefore, you should run getAneuploidy on the raw data- dont run preprocessHRD.
+
+```{r}
+ap.chr1 <- getAneuploidy(sub01.segments, sub01.ploidy, 1)
+
+# summary data
+ap.chr1[[1]]
+
+# full data
+ap.chr1[[2]]
+```
+
+```{r}
+ap.dat <- getAneuploidyGenome(sub01.segments, sub01.ploidy)
+ap.dat[[1]]
+getAneuploidyScore(ap.dat[[1]])
+
+plotAneuploidy(ap.dat[[2]])
+```
