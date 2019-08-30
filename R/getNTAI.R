@@ -2,12 +2,11 @@
 #' 
 #' @param seq.dat the data.frame of sequencing data
 #' @param min.seg.size the minimum segment size
-#' @param CN.dat the data.frame of copy number information
+
 #' 
 #' @details raw NTAI is calculated as the number of segments where the segment size is greater than the 
 #' minimum segment size; allelic imbalance is present; the segment does not cross the centromere; and the
-#' segment is not in either of the telomeres. NTAI is normalized by removing all main copy number segments.
-#' 
+#' segment is not in either of the telomeres. 
 #' @return the number of NTAI events
 #' 
 #' @examples 
@@ -15,7 +14,7 @@
 #' CN.dat <- getCNt( seq.dat )
 #' 
 #' ## the number of NTAI events in seq.dat
-#' ntai <- getNTAI.norm( seq.dat, CN.dat)
+#' ntai <- getNTAI.raw( seq.dat )
 #' 
 #' @export
 
@@ -45,6 +44,29 @@ getNTAI.raw <- function(seq.dat, min.seg.size = 11e06)
   return(HRD.NTAI)
 }
 # --------------------------------------------------------------------------------- #
+
+
+
+#' Compute the number of non-telomeric allelic imbalance (NTAI) events
+#' 
+#' @param seq.dat the data.frame of sequencing data
+#' @param CN.dat the data.frame of copy number information
+#' @param min.seg.size the minimum segment size
+#' 
+#' @details raw NTAI is calculated as the number of segments where the segment size is greater than the 
+#' minimum segment size; allelic imbalance is present; the segment does not cross the centromere; and the
+#' segment is not in either of the telomeres. NTAI is normalized by removing all main copy number segments.
+#' 
+#' @return the number of NTAI events
+#' 
+#' @examples 
+#' seq.dat <- preprocessSeq( seq.dat )
+#' CN.dat <- getCNt( seq.dat )
+#' 
+#' ## the number of NTAI events in seq.dat
+#' ntai <- getNTAI.norm( seq.dat, CN.dat)
+#' 
+#' @export
 
 
 # ------------------------------------------------------------------------------ #

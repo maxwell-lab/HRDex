@@ -23,7 +23,7 @@
 # function to get the total HRD score. this is a simple summation of LST, NTAI, and LOH.
 # this is the 'standard' HRD score most commonly seen in publication. this function is
 # implemented to automatically calculate this score- eg, select the proper mean/raw criteria
-getHRD.Score <- function( seq.dat, CN.dat, ploidy.dat, min.seg.size = 11e06, scaleTotal = FALSE, type = "sum" )
+getHRD.Score <- function( seq.dat, CN.dat, min.seg.size = 11e06, scaleTotal = FALSE, type = "sum" )
   # input: seq.dat, (data.frame) with chromosome, start.pos, end.pos, CNt, alleleA, alleleB;
   #         ploidy.dat (data.frame), the ploidy data
   #         CN.dat (data.frame), copy number data
@@ -31,7 +31,7 @@ getHRD.Score <- function( seq.dat, CN.dat, ploidy.dat, min.seg.size = 11e06, sca
   #         scaleTotal (boolean), rescale HRD total to 0-100
   # output: HRD.Score (integer), the total HRD Score
 {
-  HRD.Score <- getLOH.norm(  seq.dat, ploidy.dat, 15e06 ) + getLST.norm(  seq.dat, ploidy.dat ) + getNTAI.norm( seq.dat, CN.dat, min.seg.size )
+  HRD.Score <- getLOH(  seq.dat, 15e06 ) + getLST(  seq.dat ) + getNTAI.norm( seq.dat, CN.dat, min.seg.size )
   
   if( !(type %in% c("average", "sum")))
   {

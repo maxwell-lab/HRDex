@@ -4,17 +4,16 @@
 #' @param ploidy.dat the data.frame of ploidy data
 #' 
 #' @details raw LST is calculated as the number of segments where the gap between is < 3Mbp, each adjacent 
-#' segment is > 10Mbp, and the segments do not cross the centromere. NTAI is normalized by k, the ploidy
-#' correction factor
+#' segment is > 10Mbp, and the segments do not cross the centromere. 
 #' 
 #' @return the number of LST events
 #' 
 #' @export
 
-# functions to get large state transition (LST) events, both raw and corrected for ploidy
 
-# ---------------------------------- getLST.raw ----------------------------------- #
-getLST.raw <- function(seq.dat)
+
+# ---------------------------------- getLST ----------------------------------- #
+getLST <- function(seq.dat)
   # input:
   #   seq.dat (data.frame), the sequencing data (eg, .seqz_segments.txt)
   # output:
@@ -45,18 +44,3 @@ getLST.raw <- function(seq.dat)
 }
 # ------------------------------------------------------------------------------- #
 
-
-
-# ---------------------------------- getLST.norm --------------------------------------- #
-getLST.norm <- function(seq.dat, ploidy.dat)
-  # input:
-  #   seq.dat (data.frame), the sequencing data (eg, .seqz_segments.txt)
-  # output:
-  #   HRD.LST (numeric), large state transition
-{
-  
-  HRD.LSTm = getLST.raw(seq.dat) * ploidyCorrectionFactor(ploidy.dat$ploidy.estimate[2])
-  return(HRD.LSTm)
-  
-}
-# ------------------------------------------------------------------------------- #

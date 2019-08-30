@@ -5,10 +5,20 @@
 \title{get the standard HRD score}
 \usage{
 getHRD.Score(seq.dat, CN.dat, ploidy.dat, min.seg.size = 1.1e+07,
-  scaleTotal = FALSE)
+  scaleTotal = FALSE, type = "sum")
 }
 \arguments{
 \item{seq.dat}{the preprocessed sequencing data}
+
+\item{CN.dat}{the copy number data}
+
+\item{ploidy.dat}{the ploidy data}
+
+\item{min.seg.size}{optional: the minimum segment size (default to 11Mbp)}
+
+\item{scaleTotal}{optional: rescale the total to range of 0-100}
+
+\item{type}{optional: type of score to return, one of "sum" or "average"}
 }
 \value{
 a numeric value representing the HRD score

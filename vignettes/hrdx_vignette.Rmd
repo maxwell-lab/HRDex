@@ -1,11 +1,13 @@
 ---
 title: "HRDX Vignette"
 author: "John Pluta"
-date: "7/2/2019"
-output: html_document
+date: "8/28/2019"
+output: 
+  html_document:
+    df_print: paged
 
 vignette: >
-  %\VignetteIndexEntry{Test}
+  %\VignetteIndexEntry{HRDX}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
@@ -16,8 +18,8 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 devtools::load_all(".")
 library(HRDX)
-load("data/sub01.ploidy.rda")
-load("data/sub01.segments.rda")
+data("sub01.ploidy", package = "HRDX")
+data("sub01.segments", package = "HRDX")
 ```
 
 \  
@@ -33,6 +35,7 @@ print(sub01.ploidy)
 
 ***
 \  
+
 ## HRD Scoring
 
 **Preprocessing**
@@ -45,6 +48,7 @@ preprocessHRD( seq.dat )
 ```
 
 \  
+
 
 **Quality Control**
 
@@ -65,17 +69,9 @@ seq.dat[,cols]
 
 After the preprocessing function runs, the last two segments are combined into one.
 
-\  
-**Normalization**
 
-It is recommended that you use normalized values for HRD measures. Each genomic doubling creates a copy of each HRD event. At baseline, tumors are diploid (ploidy = 2). For tetraploid tumors (ploidy = 4), the number of genomic events is doubled. To adjust for ploidy, the raw score from a diploid tumor would be divided 1; for a tetraploid tumor, divided by 2; and so on. This can be expressed mathematically as:
 
-$$ploidy = 2^k$$
-Ploidy is an estimated value and is averaged across the genome, meaning it is unlikely to be an integer value. solving for *k* yields:
-
-$$k = \left \{ \frac{log(ploidy)} {log(2)} \right \} ^{-1}$$
-where *k* is the ploidy correction factor, that is multiplied by the raw score to obtain the normalized score. 
-\  
+\
 *NTAI*
 
 is normalized by removing CN segments (why)
@@ -83,31 +79,29 @@ is normalized by removing CN segments (why)
 ***
 **HRD Measures**
 
-Once the data has been preprocessed, you can calculate HRD measures LST, LOH, TAI, and NTAI. Each metric is retrieved with a corresponding function.
+Once the data has been preprocessed, you can calculate HRD measures LST, LOH, TAI, and NTAI. Each metric is retrieved with a corresponding function.  
 
+\newline
 \  
 *LST*
 
-Raw LST is the number of large state transition events. LST is normalized by ploidy.
+LST is the number of large state transition events. 
 
 ```{r}
 seq.dat <- preprocessHRD( sub01.segments )
-getLST.raw( seq.dat )
-getLST.norm( seq.dat, sub01.ploidy )
+getLST( seq.dat )
 ```
-
+\newline
 \  
 *LOH*
 
-Raw LOH is the number of loss of heterozygosity events. LOH is normalized by ploidy.
+LOH is the number of loss of heterozygosity events. 
 
 ```{r}
-getLOH.raw( seq.dat )
-getLOH.norm( seq.dat, sub01.ploidy )
+getLOH( seq.dat )
 ```
 
 \  
-
 *NTAI*
 
 Raw NTAI is the number of nontelomeric allelic imbalance events. NTAI is normalized by removing main copynumber segments.
@@ -119,18 +113,24 @@ getNTAI.norm( seq.dat, CN.dat)
 ```
 
 \  
-
 *HRD Score*
 
-An HRD Score is some linear combination of raw or normalized values LST, LOH, NTAI (or TAI). You can use the total or average of the three metrics. getHRD.Score is a convenient function for calculating the 'standard' HRD score (what we use in Maxwell et al.), which is the sum of LST, LOH, and NTAI, all normalized. It is intended to return the HRD score without having to specify all the individual arguments. Optionally, you can rescale the data to fit a range of 0 - 100. For a single subject, an HRD score can be easily be calculated from raw data in just a few steps:
+An HRD Score is some linear combination of raw or normalized values LST, LOH, NTAI (or TAI). It is intended to return the HRD score without having to specify all the individual arguments. Optionally, you can rescale the data to fit a range of 0 - 100. For a single subject, an HRD score can be easily be calculated from raw data in just a few steps:
 
 ```{r}
 seq.dat <- preprocessHRD( sub01.segments )
 CN.dat  <- getCNt( seq.dat )
 
-HRD <- getHRD.Score( seq.dat, CN.dat, sub01.ploidy )
+HRD <- getHRD.Score( seq.dat, CN.dat )
 print(HRD)
 ```
+
+\  
+**Ploidy Normalization**
+
+HRD will increase with ploidy, but the relationship may vary by cancer type. It is common to observe a logarithmic relationship between the two. In this case, ploidy-effects can be accounted for by fitting a linear model of ploidy on the log of the HRD score, and taking the residuals. This correction is implemented in the function ploidyNorm.log. 
+
+
 
 ***
 
