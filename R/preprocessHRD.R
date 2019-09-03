@@ -1,7 +1,7 @@
 #' Define additional properties of the sequencing data necessary to compute HRD
 #' 
 #' @param seq.dat the raw sequencing data
-#' 
+#' @param ref the reference genome to use (grch37, grch38)
 #' @details define chromosome size, arms, telomere position, and centromere position from reference data; 
 #' compute allelic imbalance and segment size
 #' 
@@ -17,7 +17,7 @@
 # ------------------------------- preprocessSeq ---------------------------------------- #
 # define allelic imbalance (AI), telomere positions, segment length, cross arms
 # these are used in the various HRD scores
-preprocessHRD <- function( seq.dat, ref = "grch37" )
+preprocessHRD <- function( seq.dat,  ref )
 # input:
 #   seq.dat (data.frame), the sequencing data (eg, .seqz_segments.txt)
 # output:

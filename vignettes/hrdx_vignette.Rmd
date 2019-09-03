@@ -44,7 +44,7 @@ The package needs to define the centromere and telomere positions for each chrom
 
 ```{r}
 seq.dat <- sub01.segments[ sub01.segments$chromosome == "chr1",]
-preprocessHRD( seq.dat )
+preprocessHRD( seq.dat, "grch38" )
 ```
 
 \  
@@ -63,7 +63,7 @@ seq.dat[,cols]
  notice that the last two segments have a very small gap between them, with identical copynumber status. This suggests that this is really one full segment being incorrectly identified as two. The function combineSegs is called within preprocessSeq to correct these:
  
 ```{r}
-seq.dat <- preprocessHRD( seq.dat )
+seq.dat <- preprocessHRD( seq.dat, "grch38" )
 seq.dat[,cols]
 ```
 
@@ -88,7 +88,7 @@ Once the data has been preprocessed, you can calculate HRD measures LST, LOH, TA
 LST is the number of large state transition events. 
 
 ```{r}
-seq.dat <- preprocessHRD( sub01.segments )
+seq.dat <- preprocessHRD( sub01.segments, "grch38" )
 getLST( seq.dat )
 ```
 \newline
@@ -118,7 +118,7 @@ getNTAI.norm( seq.dat, CN.dat)
 An HRD Score is some linear combination of raw or normalized values LST, LOH, NTAI (or TAI). It is intended to return the HRD score without having to specify all the individual arguments. Optionally, you can rescale the data to fit a range of 0 - 100. For a single subject, an HRD score can be easily be calculated from raw data in just a few steps:
 
 ```{r}
-seq.dat <- preprocessHRD( sub01.segments )
+seq.dat <- preprocessHRD( sub01.segments, "grch38" )
 CN.dat  <- getCNt( seq.dat )
 
 HRD <- getHRD.Score( seq.dat, CN.dat )
