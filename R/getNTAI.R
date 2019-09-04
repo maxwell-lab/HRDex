@@ -60,7 +60,7 @@ getNTAI.raw <- function(seq.dat, min.seg.size = 11e06)
 #' @return the number of NTAI events
 #' 
 #' @examples 
-#' seq.dat <- preprocessSeq( seq.dat )
+#' seq.dat <- preprocessHRD( seq.dat )
 #' CN.dat <- getCNt( seq.dat )
 #' 
 #' ## the number of NTAI events in seq.dat

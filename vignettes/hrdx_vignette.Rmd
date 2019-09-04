@@ -60,7 +60,7 @@ seq.dat <- sub01.segments[ sub01.segments$chromosome == "chr14", ]
 seq.dat[,cols]
 ```
 
- notice that the last two segments have a very small gap between them, with identical copynumber status. This suggests that this is really one full segment being incorrectly identified as two. The function combineSegs is called within preprocessSeq to correct these:
+ notice that the last two segments have a very small gap between them, with identical copynumber status. This suggests that this is really one full segment being incorrectly identified as two. The function combineSegs is called within preprocessHRD to correct these:
  
 ```{r}
 seq.dat <- preprocessHRD( seq.dat, "grch38" )
