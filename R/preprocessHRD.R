@@ -10,11 +10,11 @@
 #'@examples
 #'seq.dat <- sub01.segments[ sub01.segments$chromosome == "chr1",]
 #'
-#'seq.dat <- preprocessSeq( seq.dat )
+#'seq.dat <- preprocessHRD( seq.dat )
 #'seq.dat
 #'@export
 
-# ------------------------------- preprocessSeq ---------------------------------------- #
+# ------------------------------- preprocessHRD ---------------------------------------- #
 # define allelic imbalance (AI), telomere positions, segment length, cross arms
 # these are used in the various HRD scores
 preprocessHRD <- function( seq.dat,  ref )
