@@ -4,10 +4,12 @@
 \alias{preprocessHRD}
 \title{Define additional properties of the sequencing data necessary to compute HRD}
 \usage{
-preprocessHRD(seq.dat, ref = "grch37")
+preprocessHRD(seq.dat, ref)
 }
 \arguments{
 \item{seq.dat}{the raw sequencing data}
+
+\item{ref}{the reference genome to use (grch37, grch38)}
 }
 \value{
 seq.dat
@@ -22,6 +24,6 @@ compute allelic imbalance and segment size
 \examples{
 seq.dat <- sub01.segments[ sub01.segments$chromosome == "chr1",]
 
-seq.dat <- preprocessSeq( seq.dat )
+seq.dat <- preprocessHRD( seq.dat )
 seq.dat
 }

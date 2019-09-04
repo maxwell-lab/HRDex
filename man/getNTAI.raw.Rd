@@ -23,7 +23,7 @@ minimum segment size; allelic imbalance is present; the segment does not cross t
 segment is not in either of the telomeres.
 }
 \examples{
-seq.dat <- preprocessSeq( seq.dat )
+seq.dat <- preprocessHRD( seq.dat )
 CN.dat <- getCNt( seq.dat )
 
 ## the number of NTAI events in seq.dat

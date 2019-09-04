@@ -21,7 +21,7 @@ the chromosome associated with each unique copynumber state; return the copynumb
 represented.
 }
 \examples{
-seq.dat <- preprocessSeq( seq.dat )
+seq.dat <- preprocessHRD( seq.dat )
 CN.dat <- getCNt( seq.dat )
 
 }
