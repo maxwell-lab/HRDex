@@ -13,7 +13,7 @@
 #' @return a numeric value representing the HRD score
 #' 
 #' @examples
-#'seq.dat <- preprocessSeq( sub01.segments )
+#'seq.dat <- preprocessHRD( sub01.segments )
 #'
 #'CN.dat <- getCNT( seq.dat )
 #'HRD <- getHRD.Score( seq.dat, CN.dat, sub01.ploidy, scaleTotal = FALSE)

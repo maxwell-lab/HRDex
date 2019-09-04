@@ -15,7 +15,7 @@
 hrd.stats <- function(seq.dat, ploidy.dat, CN.dat, min.seg.size = 6e06)
 {
   
-  seq.dat <- preprocessSeq(seq.dat)
+  seq.dat <- preprocessHRD(seq.dat)
   
   # raw data
   HRD.NTAIr <- getNTAI.raw( seq.dat, min.seg.size )

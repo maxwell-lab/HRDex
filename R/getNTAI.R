@@ -10,7 +10,7 @@
 #' @return the number of NTAI events
 #' 
 #' @examples 
-#' seq.dat <- preprocessSeq( seq.dat )
+#' seq.dat <- preprocessHRD( seq.dat )
 #' CN.dat <- getCNt( seq.dat )
 #' 
 #' ## the number of NTAI events in seq.dat
@@ -32,7 +32,7 @@ getNTAI.raw <- function(seq.dat, min.seg.size = 11e06)
   
   if( !(all( c("AI", "cross.arm", "post.telomere", "pre.telomere") %in% colnames(seq.dat))))
   {
-    stop("some required fields missing. run 'preprocessSeq' first.")
+    stop("some required fields missing. run 'preprocessHRD' first.")
   }
   
   HRD.NTAI <- sum(seq.dat$seg.len > min.seg.size & 

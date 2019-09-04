@@ -9,7 +9,7 @@
 #' @return a data.frame containing the main copynumber state for each input chromosome
 #' 
 #' @examples 
-#' seq.dat <- preprocessSeq( seq.dat )
+#' seq.dat <- preprocessHRD( seq.dat )
 #' CN.dat <- getCNt( seq.dat )
 #' 
 #' @export
