@@ -1,4 +1,19 @@
-# generalize; clean up code
+
+#' plot aneuploidy
+#' 
+#' @param seq.dat the data.frame of sequencing data, not preprocessed
+#' @param ref the refrence genome, grch37 or grch38
+#' @param X.include bool, include X chromosome
+
+#' 
+#' @details none yet
+#' @return plot
+#' 
+#' @examples 
+#' none yet
+#' 
+#' @export
+
 
 # -------------------------- plotAneuploidy -------------------------------------- #
 # function to make a plot of the aneuploid data
