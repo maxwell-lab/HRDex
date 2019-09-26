@@ -4,7 +4,8 @@
 \alias{getAneuploidy}
 \title{Compute the aneuploidy score for a given chromosome}
 \usage{
-getAneuploidy(seq.dat, ploidy.dat, chr, ref = "grch37")
+getAneuploidy(seq.dat, ploidy.dat, chr, ref = "grch37",
+  max.brk.len = 3e+06)
 }
 \arguments{
 \item{seq.dat}{the data.frame of sequencing data}

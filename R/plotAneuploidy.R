@@ -1,18 +1,5 @@
 
 #' plot aneuploidy
-#' 
-#' @param seq.dat the data.frame of sequencing data, not preprocessed
-#' @param ref the refrence genome, grch37 or grch38
-#' @param X.include bool, include X chromosome
-
-#' 
-#' @details none yet
-#' @return plot
-#' 
-#' @examples 
-#' none yet
-#' 
-#' @export
 
 
 # -------------------------- plotAneuploidy -------------------------------------- #
@@ -24,6 +11,8 @@
 # can be adjusted
 plotAneuploidy <- function( dat, ref = "grch37", X.include = FALSE )
 {
+  i.int = 1
+  
   if( ref == "grch37" )
   {
     ref.dat <- grch37.ref.dat
@@ -50,18 +39,20 @@ plotAneuploidy <- function( dat, ref = "grch37", X.include = FALSE )
   }
   
   levels(dat$chromosome) <- levels(ref.dat$chromosome)
-  
+  levels(dat$a.stat) <- c("Amplifed", "Neutral", "Deleted")
   # if there is more than one chromosome, start/end positions of the segments and reference points
   # need to be adjusted to their point along whole genome (as opposed to their point in the chromosome)
   # this adds the appropriate offset
   # ---
   ref.tmp <- ref.dat
   chr.size = ref.dat$chr.size
-  chr.lab.pos <- rep(0, dim(ref.dat)[1])
-  chr.lab.pos[1] <- chr.size[1] / 2
+  
   
   if(length(unique(dat$chromosome)) > 1)
   {
+    chr.lab.pos <- rep(0, dim(ref.dat)[1])
+    chr.lab.pos[1] <- chr.size[1] / 2
+    
     for(i in ref.tmp$chromosome)
     {
       
@@ -103,35 +94,38 @@ plotAneuploidy <- function( dat, ref = "grch37", X.include = FALSE )
   }
   
 
-
   p1 <- ggplot( ) + 
     geom_segment(data = dat, 
                  aes( x = dat$start.pos, y = y, xend = dat$end.pos, yend = y, colour = a.stat), size = 3) +
     scale_y_continuous(breaks = seq(from = -4, to = 4, by = 0.25), limits = c(-4,4)) +
     scale_color_manual(values = c("green", "blue", "red")) +
-    geom_vline(xintercept = ref.tmp$centromere.start[ref.tmp$chromosome %in% chr]) +
-    geom_vline(xintercept = ref.tmp$centromere.end[ref.tmp$chromosome %in% chr]) +
+    geom_vline(xintercept = ref.tmp$centromere.start[ref.tmp$chromosome %in% chr], linetype = "dashed") +
+    geom_vline(xintercept = ref.tmp$centromere.end[ref.tmp$chromosome %in% chr], linetype = "dashed") +
     xlab("Genomic Position") +
     ylab("Status") +
     ggtitle( "Aneuploidy") +
     labs(color = "Alteration Status", drop = FALSE) +
     theme_classic( ) +
-    theme( axis.text.y = element_blank(), axis.ticks.y = element_blank() ) +
+    theme( axis.text.y = element_blank(), axis.ticks.y = element_blank() ) 
     
 #    geom_vline(xintercept = chr.size[1:23], color = "red", linetype = "dashed") +
+    if( i.int > 1)
+    {
+      p1 <- p1 + geom_rect(aes(xmin = 0, xmax = chr.size[1], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[2], xmax = chr.size[3], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[4], xmax = chr.size[5], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[6], xmax = chr.size[7], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[8], xmax = chr.size[9], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[10], xmax = chr.size[11], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[12], xmax = chr.size[13], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[14], xmax = chr.size[15], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[16], xmax = chr.size[17], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[18], xmax = chr.size[19], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
+        geom_rect(aes(xmin = chr.size[20], xmax = chr.size[21], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue")
+      p1 <- p1 + scale_x_discrete(drop = FALSE, limits = chr.lab.pos[ ref.tmp$chromosome %in% chr ], 
+                                  labels = chr.labs )
+    }
     
-    geom_rect(aes(xmin = 0, xmax = chr.size[1], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[2], xmax = chr.size[3], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[4], xmax = chr.size[5], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[6], xmax = chr.size[7], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[8], xmax = chr.size[9], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[10], xmax = chr.size[11], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[12], xmax = chr.size[13], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[14], xmax = chr.size[15], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[16], xmax = chr.size[17], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[18], xmax = chr.size[19], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue") +
-    geom_rect(aes(xmin = chr.size[20], xmax = chr.size[21], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue")
-  
     if( X.include == TRUE)
     {
       p1 <- p1 + geom_rect(aes(xmin = chr.size[22], xmax = chr.size[23], ymin = -Inf, ymax = Inf), alpha = 0.1, fill = "blue")
@@ -139,8 +133,10 @@ plotAneuploidy <- function( dat, ref = "grch37", X.include = FALSE )
     
      #  geom_vline(xintercept = ref.tmp$chr.size, color = "white", linetype = "dashed")
     # scale_fill_discrete(drop = FALSE) +
-    p1 <- p1 + scale_x_discrete(drop = FALSE, limits = chr.lab.pos[ ref.tmp$chromosome %in% chr ], 
-                     labels = chr.labs )
+    if( i.int == 1)
+    {
+      p1 <- p1 + xlim(0, ref.tmp$chr.size[ref.tmp$chromosome == chr])
+    }
   
   return(p1)
  

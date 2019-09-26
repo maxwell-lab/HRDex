@@ -48,10 +48,12 @@ combineSeg <- function(seq.dat, max.brk.len = 3e06, ap.calc = FALSE)
   {
     seq.dat$brk.len[i + 1] <- seq.dat$start.pos[i + 1] - seq.dat$end.pos[i]
     
-    # the only criteria for joining in aneuploidy is that aneuploidy status is the same in two adjacent segments
+    # for aneuploidy, join two adjacent segments if ap status is the same and gap is less than max break length
     if( ap.calc == TRUE )
     {
-      if( seq.dat$a.stat[i + 1] == seq.dat$a.stat[i])
+      if( seq.dat$a.stat[i + 1] == seq.dat$a.stat[i] & 
+          seq.dat$brk.len[i + 1] > 0 &
+          seg.dat$brk.len[i + 1] < max.brk.len)
       {
         seq.dat$start.pos[i + 1] <- seq.dat$start.pos[i]
         rm.ind <- c(rm.ind, i)

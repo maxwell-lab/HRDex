@@ -12,7 +12,7 @@
 #' @export
 
 # ------------------------------ getAneuploidy ------------------------------------------ #
-getAneuploidy <- function ( seq.dat, ploidy.dat, chr, ref = "grch37" )
+getAneuploidy <- function ( seq.dat, ploidy.dat, chr, ref = "grch37", max.brk.len = 3e06 )
 # input: seq.dat, (data.frame) with chromosome, start.pos, end.pos, CNt, alleleA, alleleB;
 #        ploidy.dat (data.frame), the ploidy data
 #        chr (integer or character), the chromosome of interest
@@ -116,7 +116,7 @@ getAneuploidy <- function ( seq.dat, ploidy.dat, chr, ref = "grch37" )
       if( dat$a.stat[i] == dat$a.stat[i + 1])
       {
         # Inf means no limit on break length- we ignore it in this case
-        tmp <- combineSeg( dat[i:(i+1),], Inf, ap.calc = TRUE)
+        tmp <- combineSeg( dat[i:(i+1),], max.brk.len, ap.calc = TRUE)
         
         # dont join segments across centromere
         if( !in.centromere(tmp$start.pos, tmp$end.pos, ref.cent.start, ref.cent.end))
