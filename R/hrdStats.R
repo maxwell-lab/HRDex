@@ -27,16 +27,16 @@
 #         min.seg.size (integer), minimum segment size used in TAI calculations
 #         scaleTotal (boolean), rescale HRD total to 0-100
 # output: out, a data.frame with HRD metrics
-hrd.stats <- function(seq.dat, ploidy.dat, CN.dat, min.seg.size = 6e06, ref = "grch37")
+hrd.stats <- function(seq.dat, ploidy.dat, CN.dat, ref = "grch37")
 {
   
   seq.dat <- preprocessHRD(seq.dat, ref)
   
-  # raw data
-  HRD.NTAIr <- getNTAI.raw( seq.dat, min.seg.size )
+  # use default min seg size for each call
+  HRD.NTAIr <- getNTAI.raw( seq.dat )
   HRD.LST  <- getLST(  seq.dat )
   HRD.LOH   <- getLOH(  seq.dat )
-  HRD.NTAIm <- getNTAI.norm( seq.dat, CN.dat, ploidy.dat, min.seg.size )
+  HRD.NTAIm <- getNTAI.norm( seq.dat, CN.dat, ploidy.dat )
 
   
   out = data.frame(
