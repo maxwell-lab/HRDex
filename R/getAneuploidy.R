@@ -198,7 +198,15 @@ getAneuploidy <- function ( seq.dat, ploidy.dat, chr, ref = "grch37", max.brk.le
 
 
 
-
+#' 
+#' @param seq.dat the data.frame of sequencing data
+#' @param ploidy.dat the data.frame of ploidy data
+#' @param include.X, include chromosome (logical
+#' 
+#' @details get aneuploidy status across the whole genome
+#' 
+#' @seealso \code{\link{getAneuploidy}}
+#' @export
 # ------------------------------- getAneuploidyGenome --------------------------- #
 # function to get aneuploidy scores for the whole genome
 getAneuploidyGenome <- function( seq.dat, ploidy.dat, include.X = FALSE )
@@ -233,7 +241,13 @@ getAneuploidyGenome <- function( seq.dat, ploidy.dat, include.X = FALSE )
 
 
 
-
+#' 
+#' @param dat, data.frame containing aneuploidy scores
+#'
+#' @details description goes here
+#' 
+#' @seealso \code{\link{getAneuploidy}}
+#' @export
 # ---------------------------- getAneuploidyScore ------------------------------- #
 # function to get total aneuploidy score (out of 39)
 getAneuploidyScore <- function( dat )
