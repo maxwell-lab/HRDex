@@ -53,7 +53,7 @@ combineSeg <- function(seq.dat, max.brk.len = 3e06, ap.calc = FALSE)
     {
       if( seq.dat$a.stat[i + 1] == seq.dat$a.stat[i] & 
           seq.dat$brk.len[i + 1] > 0 &
-          seg.dat$brk.len[i + 1] < max.brk.len)
+          seq.dat$brk.len[i + 1] < max.brk.len)
       {
         seq.dat$start.pos[i + 1] <- seq.dat$start.pos[i]
         rm.ind <- c(rm.ind, i)
