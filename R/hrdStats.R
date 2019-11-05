@@ -19,22 +19,17 @@ hrd.stats <- function(seq.dat, ploidy.dat, CN.dat, min.seg.size = 6e06)
   
   # raw data
   HRD.NTAIr <- getNTAI.raw( seq.dat, min.seg.size )
-  HRD.TAIr  <- getTAI.raw(  seq.dat, min.seg.size )
-  HRD.LSTr  <- getLST.raw(  seq.dat )
-  HRD.LOHr   <- getLOH.raw(  seq.dat )
-  HRD.LOHm  <- getLOH.norm( seq.dat, ploidy.dat)
+  HRD.LST  <- getLST(  seq.dat )
+  HRD.LOH   <- getLOH(  seq.dat )
   HRD.NTAIm <- getNTAI.norm( seq.dat, CN.dat, ploidy.dat, min.seg.size )
-  HRD.TAIm  <- getTAI.norm(  seq.dat, CN.dat, ploidy.dat, min.seg.size )
-  HRD.LSTm  <- getLST.norm( seq.dat, ploidy.dat )
+
   
-  out = data.frame(HRD.LOHm   = HRD.LOHm, 
-                   HRD.LOHr  = HRD.LOHr,
-                   HRD.TAIr  = HRD.TAIr,
-                   HRD.TAIRm = HRD.TAIm,
+  out = data.frame(
+                   HRD.LOH  = HRD.LOH,
                    HRD.NTAIr = HRD.NTAIr,
                    HRD.NTAIm = HRD.NTAIm,
-                   HRD.LSTr  = HRD.LSTr,
-                   HRD.LSTm  = HRD.LSTm )
+                   HRD.LST  = HRD.LST
+                   )
   
   # HRD.Score can be the total of any 3 metrics, raw or norm- this is the 'standard' score
   out$HRD.Score <- getHRD.Score( seq.dat, CN.dat, ploidy.dat, min.seg.size, scaleTotal = FALSE )
