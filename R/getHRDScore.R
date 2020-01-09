@@ -16,7 +16,7 @@
 #'seq.dat <- preprocessHRD( sub01.segments )
 #'
 #'CN.dat <- getCNT( seq.dat )
-#'HRD <- getHRD.Score( seq.dat, CN.dat, sub01.ploidy, scaleTotal = FALSE)
+#'HRD <- getHRD.Score( seq.dat, CN.dat, scaleTotal = FALSE)
 #' @export
 
 # ------------------------------- getHRD.Score ---------------------------------- #
