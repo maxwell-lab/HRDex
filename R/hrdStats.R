@@ -27,7 +27,7 @@
 #         min.seg.size (integer), minimum segment size used in TAI calculations
 #         scaleTotal (boolean), rescale HRD total to 0-100
 # output: out, a data.frame with HRD metrics
-hrd.stats <- function(seq.dat, ploidy.dat, CN.dat, ref = "grch37")
+hrd.stats <- function(seq.dat, CN.dat, ref = "grch37")
 {
   
   seq.dat <- preprocessHRD(seq.dat, ref)
