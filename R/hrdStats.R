@@ -2,8 +2,6 @@
 #' 
 #' @param seq.dat the preprocessed sequencing data
 #' @param CN.dat the copy number data
-#' @param ploidy.dat the ploidy data
-#' @param min.seg.size optional: the minimum segment size (default to 11Mbp)
 #' @param scaleTotal optional: rescale the total to range of 0-100
 #' @param type optional: type of score to return, one of "sum" or "average"
 #' 
@@ -17,8 +15,9 @@
 
 # ------------------------------------- hrd.stats ------------------------------------- #
 # hrd.stats is a function to compute the three HRD metrics (HRD-LOH, HRD-NTAI, and
-# HRD-LST), as well as total HRD and mean HRD. this simply wraps up the output in one
-# dataframe- you can run all of these steps individually for error checking.
+# HRD-LST), as well as total HRD and mean HRD. assumes all standard options for minimum
+# segment size and does not normalize for ploidy, this simply wraps up the output in one
+# dataframe- you can run all of these steps individually for error checking. 
 
 #
 # input: seq.dat, (data.frame) with chromosome, start.pos, end.pos, CNt, alleleA, alleleB;
@@ -36,7 +35,7 @@ hrd.stats <- function(seq.dat, CN.dat, ref = "grch37")
   HRD.NTAIr <- getNTAI.raw( seq.dat )
   HRD.LST  <- getLST(  seq.dat )
   HRD.LOH   <- getLOH(  seq.dat )
-  HRD.NTAIm <- getNTAI.norm( seq.dat, CN.dat, ploidy.dat )
+  HRD.NTAIm <- getNTAI.norm( seq.dat, CN.dat)
 
   
   out = data.frame(
@@ -47,7 +46,7 @@ hrd.stats <- function(seq.dat, CN.dat, ref = "grch37")
                    )
   
   # HRD.Score can be the total of any 3 metrics, raw or norm- this is the 'standard' score
-  out$HRD.Score <- getHRD.Score( seq.dat, CN.dat, ploidy.dat, min.seg.size, scaleTotal = FALSE )
+  out$HRD.Score <- getHRD.Score( seq.dat, CN.dat, scaleTotal = FALSE )
   
   return(out)
   
