@@ -2,8 +2,6 @@
 #' 
 #' @param seq.dat the preprocessed sequencing data
 #' @param CN.dat the copy number data
-#' @param ploidy.dat the ploidy data
-#' @param min.seg.size optional: the minimum segment size (default to 11Mbp)
 #' @param scaleTotal optional: rescale the total to range of 0-100
 #' @param type optional: type of score to return, one of "sum" or "average"
 #' 
