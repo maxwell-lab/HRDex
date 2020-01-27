@@ -1,4 +1,4 @@
-#' Compute the aneuploidy score for a given chromosome
+#' @title Compute the aneuploidy score for a given chromosome
 #' 
 #' @param seq.dat the data.frame of sequencing data
 #' @param ploidy.dat the data.frame of ploidy data
@@ -12,6 +12,7 @@
 #' @export
 
 # ------------------------------ getAneuploidy ------------------------------------------ #
+#' @name getAneuploidy
 getAneuploidy <- function ( seq.dat, ploidy.dat, chr, ref = "grch37", max.brk.len = 3e06 )
 # input: seq.dat, (data.frame) with chromosome, start.pos, end.pos, CNt, alleleA, alleleB;
 #        ploidy.dat (data.frame), the ploidy data
@@ -198,7 +199,7 @@ getAneuploidy <- function ( seq.dat, ploidy.dat, chr, ref = "grch37", max.brk.le
 
 
 
-#' 
+#' @title get aneuploidy genome
 #' @param seq.dat the data.frame of sequencing data
 #' @param ploidy.dat the data.frame of ploidy data
 #' @param include.X, include chromosome (logical
@@ -209,6 +210,7 @@ getAneuploidy <- function ( seq.dat, ploidy.dat, chr, ref = "grch37", max.brk.le
 #' @export
 # ------------------------------- getAneuploidyGenome --------------------------- #
 # function to get aneuploidy scores for the whole genome
+#' @name getAneuploidyGenome
 getAneuploidyGenome <- function( seq.dat, ploidy.dat, include.X = FALSE )
 # indput: seq.dat (data.frame), the raw sequencing data
 #         ploidy.dat (data.frame), the ploidy data
@@ -241,7 +243,7 @@ getAneuploidyGenome <- function( seq.dat, ploidy.dat, include.X = FALSE )
 
 
 
-#' 
+#' @title get aneuploidy score
 #' @param dat, data.frame containing aneuploidy scores
 #'
 #' @details description goes here
@@ -251,6 +253,7 @@ getAneuploidyGenome <- function( seq.dat, ploidy.dat, include.X = FALSE )
 # ---------------------------- getAneuploidyScore ------------------------------- #
 # function to get total aneuploidy score (out of 39)
 getAneuploidyScore <- function( dat )
+#' @name getAneuploidyScore
   # input: dat (data.frame), seq data that been run through getAneuploidy
   # output: score (integer), score in the range of 0-39
 {

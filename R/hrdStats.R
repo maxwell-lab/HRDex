@@ -1,4 +1,4 @@
-#'
+#' @title get hrd metrics
 #' 
 #' @param seq.dat the preprocessed sequencing data
 #' @param CN.dat the copy number data
@@ -26,6 +26,7 @@
 #         min.seg.size (integer), minimum segment size used in TAI calculations
 #         scaleTotal (boolean), rescale HRD total to 0-100
 # output: out, a data.frame with HRD metrics
+#' @name hrd.stats
 hrd.stats <- function(seq.dat, CN.dat, ref = "grch37")
 {
   
