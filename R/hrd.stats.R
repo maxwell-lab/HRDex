@@ -11,7 +11,7 @@
 #' @examples
 #'seq.dat <- hrd.stats(  )
 #'
-#' @export
+#' @export hrd.stats
 
 # ------------------------------------- hrd.stats ------------------------------------- #
 # hrd.stats is a function to compute the three HRD metrics (HRD-LOH, HRD-NTAI, and
@@ -46,7 +46,7 @@ hrd.stats <- function(seq.dat, CN.dat, ref = "grch37")
                    HRD.LST  = HRD.LST
                    )
   
-  # HRD.Score can be the total of any 3 metrics, raw or norm- this is the 'standard' score
+  # HRD.Score can be the total of any 3 metrics, raw or norm- this is the standard score
   out$HRD.Score <- getHRD.Score( seq.dat, CN.dat, scaleTotal = FALSE )
   
   return(out)
