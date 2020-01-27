@@ -11,7 +11,7 @@
 #' @examples
 #'seq.dat <- hrd.stats(  )
 #'
-#' @export hrd.stats
+#' @exportMethod hrd.stats
 
 # ------------------------------------- hrd.stats ------------------------------------- #
 # hrd.stats is a function to compute the three HRD metrics (HRD-LOH, HRD-NTAI, and
