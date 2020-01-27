@@ -46,7 +46,7 @@ hrd.stats <- function(seq.dat, CN.dat, ref = "grch37")
                    HRD.LST  = HRD.LST
                    )
   
-  # HRD.Score can be the total of any 3 metrics, raw or norm- this is the 'standard' score
+  # HRD.Score can be the total of any 3 metrics, raw or norm- this is the standard score
   out$HRD.Score <- getHRD.Score( seq.dat, CN.dat, scaleTotal = FALSE )
   
   return(out)
