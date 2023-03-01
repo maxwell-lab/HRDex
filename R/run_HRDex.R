@@ -30,4 +30,4 @@ HRD.NTAIr <- getNTAI.raw( seq.dat )
 HRD.NTAIm <- getNTAI.norm( seq.dat, CN.dat )
 
 output=data.frame("TumorID"=args$tumor,"HRD.NTAIr"=HRD.NTAIr,"HRD.NTAIm"=HRD.NTAIm,"HRD.LOH"=HRD.LOH,"HRD.LST"=HRD.LST,"HRD.score"=HRD.score)
-write.csv(output,file=args$outfile,row.names=FALSE,col.names=TRUE)
+write.table(output,file=args$outfile,sep=",",row.names=FALSE,col.names=TRUE)
