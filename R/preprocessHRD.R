@@ -49,7 +49,7 @@ preprocessHRD <- function( seq.dat,  ref )
   }
 
   # fix chromosome numbers
-  seq.dat$chromosome[seq.dat$chromosome==23,]<-"X"
+  seq.dat$chromosome[seq.dat$chromosome==23]<-"X"
   seq.dat<-seq.dat[!seq.dat$chromosome %in% c(24,"Y"),]
 
   # remove rows w/ missing entries
