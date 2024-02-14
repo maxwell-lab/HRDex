@@ -6,9 +6,17 @@ p <- ArgumentParser()
 p$add_argument('-i', '--infile', help = 'Path to input BED file.')
 p$add_argument('-o', '--outfile', help = "Path to output file.")
 p$add_argument('--tumor', help = 'Tumor id.')
-p$add_argument('--build', help = 'Genome build; {grch37,grch38}.')
+p$add_argument('--build', help = 'Genome build; {grch37, grch38, hg19, hg38}.')
 
 args <- p$parse_args()
+
+# Mapping hg19 to grch37 and hg38 to grch38
+genome_build_map <- list(grch37 = "grch37", grch38 = "grch38", hg19 = "grch37", hg38 = "grch38")
+ref <- tolower(genome_build_map[[tolower(args$build)]])
+
+if (is.null(ref)) {
+  stop("Invalid genome build. Please use one of: grch37, grch38, hg19, hg38")
+}
 
 # Reading the BED file and specifying column names
 seq.dat <- read.table(args$infile, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
