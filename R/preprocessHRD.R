@@ -66,9 +66,12 @@ preprocessHRD <- function( seq.dat,  ref )
 
   levels(seq.dat$chromosome) <- levels(ref.dat$chromosome)
 
-  seq.dat$frac.chr <- (seq.dat$end.pos - seq.dat$start.pos) / ref.dat$chr.size[match(seq.dat$chromosome, ref.dat$chromosome)]
-
-
+  if(nrow(seq.dat) > 0) {
+      seq.dat$frac.chr <- (seq.dat$end.pos - seq.dat$start.pos) / ref.dat$chr.size[match(seq.dat$chromosome, ref.dat$chromosome)]
+    } else {
+      print("No data available for calculating frac.chr.")
+      return(seq.dat)
+    }
 
   # segment length
   seq.dat$brk.len <- 0
