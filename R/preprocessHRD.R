@@ -51,17 +51,9 @@ preprocessHRD <- function( seq.dat,  ref )
   # fix chromosome numbers
   seq.dat$chromosome[seq.dat$chromosome==23]<-"X"
   seq.dat<-seq.dat[!seq.dat$chromosome %in% c(24,"Y"),]
-
-  # remove rows w/ missing entries
-  if( any( is.na(seq.dat$CNt) ))
-  {
-    print(paste("Row: ", which(is.na(seq.dat$CNt)), " contains NA; removing.", sep = ""))
-    seq.dat <- subset(seq.dat, !is.na(seq.dat$CNt))
-  }
-
-  if( any( is.na(seq.dat$A) | is.na(seq.dat$B)))
-  {
-    seq.dat <- seq.dat[-which(is.na(seq.dat$A) | is.na(seq.dat$B)),]
+  # Check if any values in seq.dat$chromosome do NOT start with "chr"
+  if(any(!grepl("^chr", seq.dat$chromosome))) {
+      ref.dat$chromosome <- sub("^chr", "", ref.dat$chromosome)
   }
 
   levels(seq.dat$chromosome) <- levels(ref.dat$chromosome)

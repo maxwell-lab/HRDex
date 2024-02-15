@@ -54,10 +54,10 @@ getCNt <- function( seq.dat )
       if(length(max_frac_indices) > 0) {
         main.CN[ct1] <- out$CNt[max_frac_indices[1]]  # Use the first if there are multiple maxima
       } else {
-        main.CN[ct1] <- NA  # Or handle differently if no maximum fraction is found
+        main.CN[ct1] <- NA
       }
     } else {
-      main.CN[ct1] <- NA  # Or set a default value or handle as appropriate
+      main.CN[ct1] <- NA
     }
 
   }
